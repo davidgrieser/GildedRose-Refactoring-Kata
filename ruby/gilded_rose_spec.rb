@@ -48,6 +48,7 @@ describe GildedRose do
     it "cannot go higher than 50 quality" do
       60.times { gs.update_quality }
       expect(subject).to eq 50
+      expect(items[0].sell_in).to eq -48
     end
   end
 
