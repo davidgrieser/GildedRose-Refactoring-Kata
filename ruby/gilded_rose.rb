@@ -1,11 +1,44 @@
 class GildedRose
+  class BaseItem
+    attr_reader :item
+
+    def initialize(item)
+      @item = item
+      @degrade_value = 1
+    end
+
+    def update
+      @item.sell_in -= 1
+      @item.quality -= @degrade_value unless @item.quality == 0
+      if @item.sell_in == 0
+        @degrade_value *= 2
+      end
+    end
+  end
+
+  SPECIAL_ITEMS = [
+    "Aged Brie",
+    "Backstage passes to a TAFKAL80ETC concert",
+    "Sulfuras, Hand of Ragnaros"
+  ]
 
   def initialize(items)
     @items = items
+    @parsed_items = items.map do |item|
+      if SPECIAL_ITEMS.include?(item.name)
+        item
+      else
+        BaseItem.new(item)
+      end
+    end
   end
 
   def update_quality()
-    @items.each do |item|
+    @parsed_items.each do |item|
+      if item.class == BaseItem
+        item.update
+        next
+      end
       if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
         if item.quality > 0
           if item.name != "Sulfuras, Hand of Ragnaros"
