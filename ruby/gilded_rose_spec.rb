@@ -12,7 +12,13 @@ describe GildedRose do
   end
 
   context "Aged Brie" do
-    it "increase in quality the older it gets"
+    let(:items) { [Item.new("Aged Brie", 12, 1)] }
+    let(:gs) { GildedRose.new(items) }
+    subject { items[0].quality }
+    it "increase in quality the older it gets" do
+      5.times { gs.update_quality }
+      expect(subject).to eq 6
+    end
   end
 
   context "Backstage passes" do
@@ -26,9 +32,7 @@ describe GildedRose do
         expect(subject).to eq 2
       end
       it "by 2 when there are 10 days or less" do
-        gs.update_quality()
-        gs.update_quality()
-        gs.update_quality()
+        3.times { gs.update_quality }
         expect(subject).to eq 5
       end
       it "by 3 when there are 5 days or less" do
