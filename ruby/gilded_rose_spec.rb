@@ -48,14 +48,20 @@ describe GildedRose do
       expect(subject).to eq 0
     end
   end
-  context "item is Aged Brie" do
-    context "and quality is less than 50" do
-      it "should update the quality by 1" do
-      end
+
+  context "Sulfuras" do
+    let(:items) { [Item.new("Sulfuras, Hand of Ragnaros", 12, 17)] }
+    let(:gs) { GildedRose.new(items) }
+    subject { items[0] }
+    it "should maintain quality" do
+      8.times { gs.update_quality }
+      expect(subject.quality).to eq 17
+    end
+    it "should maintain sell in doesn't decrease" do
+      8.times { gs.update_quality }
+      expect(subject.sell_in).to eq 12
     end
   end
-
-  context ""
 end
 
 describe Item do
