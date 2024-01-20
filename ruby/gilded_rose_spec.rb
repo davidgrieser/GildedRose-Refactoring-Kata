@@ -11,6 +11,32 @@ describe GildedRose do
     expect(items[0].name).to eq "foo"
   end
 
+  context "Given a non-specific item" do
+    let(:items) { [Item.new("Embossed Leather Boots", 10, 20)]}
+    let(:gs) { GildedRose.new(items) }
+    subject { items[0] }
+    it "should lower the sell in by 1" do
+      3.times { gs.update_quality }
+      expect(subject.quality).to eq 17
+    end
+    it "should lower the quality by 1" do
+      3.times { gs.update_quality }
+      expect(subject.sell_in).to eq 7
+    end
+    context "Once sell in is 0" do
+      it "reduces quality twice as fast" do
+        10.times { gs.update_quality }
+        gs.update_quality
+        expect(subject.quality).to eq 8
+      end
+    end
+
+    it "Item quality can never be negative" do
+      20.times { gs.update_quality }
+      expect(subject.quality).to eq 0
+    end
+  end
+
   context "Aged Brie" do
     let(:items) { [Item.new("Aged Brie", 12, 1)] }
     let(:gs) { GildedRose.new(items) }
@@ -22,7 +48,9 @@ describe GildedRose do
   end
 
   context "Backstage passes" do
-    let(:items) { [Item.new("Backstage passes to a TAFKAL80ETC concert", 12, 1)] }
+    let(:sell_in) { 12 }
+    let(:quality) { 1 }
+    let(:items) { [Item.new("Backstage passes to a TAFKAL80ETC concert", sell_in, quality)] }
     let(:gs) { GildedRose.new(items) }
     subject { items[0].quality }
 
@@ -46,6 +74,14 @@ describe GildedRose do
     it "quality is 0 when sell in is 0" do
       13.times { gs.update_quality }
       expect(subject).to eq 0
+    end
+
+    context "given a longer sell in" do
+      let(:sell_in) { 100 }
+      it "should never exceed 50 quality" do
+        50.times { gs.update_quality }
+        expect(subject).to eq 50
+      end
     end
   end
 
