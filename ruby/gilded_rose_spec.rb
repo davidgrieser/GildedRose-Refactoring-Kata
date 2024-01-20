@@ -43,7 +43,10 @@ describe GildedRose do
         expect(subject).to eq 16
       end
     end
-    it "quality is 0 when sell in is 0"
+    it "quality is 0 when sell in is 0" do
+      13.times { gs.update_quality }
+      expect(subject).to eq 0
+    end
   end
   context "item is Aged Brie" do
     context "and quality is less than 50" do
