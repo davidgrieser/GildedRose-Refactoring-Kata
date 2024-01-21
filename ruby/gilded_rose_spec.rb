@@ -80,9 +80,10 @@ describe GildedRose do
         expect(subject).to eq 16
       end
     end
-    it "quality is 0 when sell in is 0" do
-      13.times { gs.update_quality }
-      expect(subject).to eq 0
+    it "quality is 50 when sell in is 0" do
+      12.times { gs.update_quality }
+      expect(items[0].sell_in).to eq 0
+      expect(subject).to eq 28
     end
     it "should maintain 0 quality if sell in is negative" do
       14.times { gs.update_quality }
