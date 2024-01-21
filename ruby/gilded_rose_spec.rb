@@ -84,6 +84,10 @@ describe GildedRose do
       13.times { gs.update_quality }
       expect(subject).to eq 0
     end
+    it "should maintain 0 quality if sell in is negative" do
+      14.times { gs.update_quality }
+      expect(subject).to eq 0
+    end
 
     context "given a longer sell in" do
       let(:sell_in) { 100 }
