@@ -43,6 +43,11 @@ class GildedRose
     end
   end
 
+  class Sulfuras < BaseItem
+    def update
+    end
+  end
+
   SPECIAL_ITEMS = [
     "Aged Brie",
     "Backstage passes to a TAFKAL80ETC concert",
@@ -57,6 +62,8 @@ class GildedRose
         AgedBrie.new(item)
       elsif item.name == SPECIAL_ITEMS[1]
         BackstagePass.new(item)
+      elsif item.name == SPECIAL_ITEMS[2]
+        Sulfuras.new(item)
       elsif SPECIAL_ITEMS.include?(item.name)
         item
       else
@@ -67,7 +74,7 @@ class GildedRose
 
   def update_quality()
     @parsed_items.each do |item|
-      if item.class == BaseItem || item.class == AgedBrie || item.class == BackstagePass
+      if item.class == BaseItem || item.class == AgedBrie || item.class == BackstagePass || item.class == Sulfuras
         item.update
         next
       end
