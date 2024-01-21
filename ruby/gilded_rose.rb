@@ -59,7 +59,6 @@ class GildedRose
     @items = items
     @parsed_items = items.map do |item|
       if item.name == SPECIAL_ITEMS[0]
-        puts "Creating Aged Brie"
         AgedBrie.new(item)
       elsif item.name == SPECIAL_ITEMS[1]
         BackstagePass.new(item)
