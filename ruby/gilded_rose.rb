@@ -9,7 +9,9 @@ class GildedRose
 
     def update
       @item.sell_in -= 1
-      @item.quality -= @degrade_value unless @item.quality == 0
+      @item.quality -= @degrade_value
+      @item.quality = 0 if @item.quality < 0
+      @item.quality = 50 if @item.quality > 50
       update_degrade_value
     end
 
@@ -17,6 +19,13 @@ class GildedRose
       if @item.sell_in == 0
         @degrade_value *= 2
       end
+    end
+  end
+
+  class AgedBrie < BaseItem
+    def initialize(item)
+      super(item)
+      @degrade_value = -1
     end
   end
 
@@ -29,7 +38,10 @@ class GildedRose
   def initialize(items)
     @items = items
     @parsed_items = items.map do |item|
-      if SPECIAL_ITEMS.include?(item.name)
+      if item.name == SPECIAL_ITEMS[0]
+        puts "Creating Aged Brie"
+        AgedBrie.new(item)
+      elsif SPECIAL_ITEMS.include?(item.name)
         item
       else
         BaseItem.new(item)
@@ -39,7 +51,7 @@ class GildedRose
 
   def update_quality()
     @parsed_items.each do |item|
-      if item.class == BaseItem
+      if item.class == BaseItem || item.class == AgedBrie
         item.update
         next
       end
