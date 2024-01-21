@@ -10,6 +10,10 @@ class GildedRose
     def update
       @item.sell_in -= 1
       @item.quality -= @degrade_value unless @item.quality == 0
+      update_degrade_value
+    end
+
+    def update_degrade_value
       if @item.sell_in == 0
         @degrade_value *= 2
       end
