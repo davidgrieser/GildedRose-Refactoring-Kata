@@ -45,6 +45,10 @@ describe GildedRose do
       5.times { gs.update_quality }
       expect(subject).to eq 6
     end
+    it "should increase faster after sell_in 0" do
+      13.times { gs.update_quality }
+      expect(subject).to eq 15
+    end
     it "cannot go higher than 50 quality" do
       60.times { gs.update_quality }
       expect(subject).to eq 50
