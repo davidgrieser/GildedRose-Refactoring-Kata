@@ -29,6 +29,20 @@ class GildedRose
     end
   end
 
+  class BackstagePass < BaseItem
+    def initialize(item)
+      super(item)
+      update_degrade_value
+    end
+
+    def update_degrade_value
+      @degrade_value = -1 if @item.sell_in > 10
+      @degrade_value = -2 if @item.sell_in <= 10
+      @degrade_value = -3 if @item.sell_in <= 5
+      @degrade_value = @item.quality if @item.sell_in == 0
+    end
+  end
+
   SPECIAL_ITEMS = [
     "Aged Brie",
     "Backstage passes to a TAFKAL80ETC concert",
@@ -41,6 +55,8 @@ class GildedRose
       if item.name == SPECIAL_ITEMS[0]
         puts "Creating Aged Brie"
         AgedBrie.new(item)
+      elsif item.name == SPECIAL_ITEMS[1]
+        BackstagePass.new(item)
       elsif SPECIAL_ITEMS.include?(item.name)
         item
       else
@@ -51,7 +67,7 @@ class GildedRose
 
   def update_quality()
     @parsed_items.each do |item|
-      if item.class == BaseItem || item.class == AgedBrie
+      if item.class == BaseItem || item.class == AgedBrie || item.class == BackstagePass
         item.update
         next
       end
