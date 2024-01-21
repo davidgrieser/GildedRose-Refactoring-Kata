@@ -49,10 +49,18 @@ class GildedRose
     end
   end
 
+  class ConjuredItem < BaseItem
+    def initialize(item)
+      super(item)
+      @degrade_value *= 2
+    end
+  end
+
   SPECIAL_ITEMS = [
     "Aged Brie",
     "Backstage passes to a TAFKAL80ETC concert",
-    "Sulfuras, Hand of Ragnaros"
+    "Sulfuras, Hand of Ragnaros",
+    "Conjured Mana Cake"
   ]
 
   def initialize(items)
@@ -64,6 +72,8 @@ class GildedRose
         BackstagePass.new(item)
       elsif item.name == SPECIAL_ITEMS[2]
         Sulfuras.new(item)
+      elsif item.name == SPECIAL_ITEMS[3]
+        ConjuredItem.new(item)
       else
         BaseItem.new(item)
       end

@@ -112,6 +112,16 @@ describe GildedRose do
       expect(subject.sell_in).to eq 12
     end
   end
+
+  context "Conjured Items" do
+    let(:items) { [Item.new("Conjured Mana Cake", 10, 10)] }
+    let(:gs) { GildedRose.new(items) }
+    subject { items[0] }
+    it "should degrade twice as fast" do
+      5.times { gs.update_quality }
+      expect(subject.quality).to eq 0
+    end
+  end
 end
 
 describe Item do
