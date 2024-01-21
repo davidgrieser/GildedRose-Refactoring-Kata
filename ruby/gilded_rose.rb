@@ -64,7 +64,6 @@ class GildedRose
   ]
 
   def initialize(items)
-    @items = items
     @parsed_items = items.map do |item|
       if item.name == SPECIAL_ITEMS[0]
         AgedBrie.new(item)
