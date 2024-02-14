@@ -72,14 +72,8 @@ class GildedRose
 
   def initialize(items)
     @parsed_items = items.map do |item|
-      if item.name == SPECIAL_ITEMS[0]
+      if SPECIAL_ITEMS_MAP.keys.include?(item.name)
         SPECIAL_ITEMS_MAP[item.name].new(item)
-      elsif item.name == SPECIAL_ITEMS[1]
-        BackstagePass.new(item)
-      elsif item.name == SPECIAL_ITEMS[2]
-        Sulfuras.new(item)
-      elsif item.name == SPECIAL_ITEMS[3]
-        ConjuredItem.new(item)
       else
         BaseItem.new(item)
       end
