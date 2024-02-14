@@ -63,10 +63,17 @@ class GildedRose
     "Conjured Mana Cake"
   ]
 
+  SPECIAL_ITEMS_MAP = {
+    "Aged Brie" => AgedBrie,
+    "Backstage passes to a TAFKAL80ETC concert" => BackstagePass,
+    "Sulfuras, Hand of Ragnaros" => Sulfuras,
+    "Conjured Mana Cake" => ConjuredItem
+  }
+
   def initialize(items)
     @parsed_items = items.map do |item|
       if item.name == SPECIAL_ITEMS[0]
-        AgedBrie.new(item)
+        SPECIAL_ITEMS_MAP[item.name].new(item)
       elsif item.name == SPECIAL_ITEMS[1]
         BackstagePass.new(item)
       elsif item.name == SPECIAL_ITEMS[2]
