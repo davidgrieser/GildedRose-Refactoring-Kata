@@ -30,17 +30,23 @@ class GildedRose
   end
 
   class BackstagePass < BaseItem
+    DEGRADE_MAP = {
+      ..-1 => 0,
+      1..5 => -3,
+      6..10 => -2,
+      10.. => -1,
+    }
     def initialize(item)
       super(item)
       update_degrade_value
     end
 
     def update_degrade_value
-      @degrade_value = -1 if @item.sell_in > 10
-      @degrade_value = -2 if @item.sell_in <= 10
-      @degrade_value = -3 if @item.sell_in <= 5
-      @degrade_value = @item.quality if @item.sell_in == 0
-      @degrade_value = 0 if @item.sell_in < 0
+      if @item.sell_in == 0
+        @degrade_value = @item.quality
+      else
+        @degrade_value = DEGRADE_MAP.select { |k| k === @item.sell_in }.values.first
+      end
     end
   end
 
@@ -55,13 +61,6 @@ class GildedRose
       @degrade_value *= 2
     end
   end
-
-  SPECIAL_ITEMS = [
-    "Aged Brie",
-    "Backstage passes to a TAFKAL80ETC concert",
-    "Sulfuras, Hand of Ragnaros",
-    "Conjured Mana Cake"
-  ]
 
   SPECIAL_ITEMS_MAP = {
     "Aged Brie" => AgedBrie,
